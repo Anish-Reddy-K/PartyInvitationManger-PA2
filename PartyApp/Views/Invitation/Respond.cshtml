@@ -1,0 +1,57 @@
+﻿@model InvitationResponseViewModel
+
+@{
+    ViewData["Title"] = "Respond to Invitation";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center">Hello @Model.GuestName!</h1>
+            </div>
+            <div class="card-body">
+                <h3 class="text-center mb-4">You've been invited to @Model.PartyDescription</h3>
+
+                <div class="row mb-4">
+                    <div class="col text-center">
+                        <p><strong>Date:</strong> @Model.PartyDate.ToShortDateString()</p>
+                        <p><strong>Location:</strong> @Model.PartyLocation</p>
+                    </div>
+                </div>
+
+                <form asp-action="Respond" method="post">
+                    <input type="hidden" asp-for="InvitationId" />
+                    <input type="hidden" asp-for="GuestName" />
+                    <input type="hidden" asp-for="PartyDescription" />
+                    <input type="hidden" asp-for="PartyDate" />
+                    <input type="hidden" asp-for="PartyLocation" />
+
+                    <div class="text-center mb-4">
+                        <h4>Will you attend?</h4>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" asp-for="WillAttend" id="willAttendYes" value="true" />
+                            <label class="form-check-label" for="willAttendYes">Yes, I'll be there</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" asp-for="WillAttend" id="willAttendNo" value="false" />
+                            <label class="form-check-label" for="willAttendNo">No, I can't make it</label>
+                        </div>
+
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary">Submit Response</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

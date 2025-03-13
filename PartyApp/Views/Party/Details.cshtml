@@ -1,0 +1,130 @@
+﻿@model PartyDetailsViewModel
+
+@{
+    ViewData["Title"] = "Party Details";
+}
+
+<h1>Party Details: @Model.Party.Description</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@Model.Party.Description</dd>
+
+        <dt class="col-sm-2">Event Date</dt>
+        <dd class="col-sm-10">@Model.Party.EventDate.ToShortDateString()</dd>
+
+        <dt class="col-sm-2">Location</dt>
+        <dd class="col-sm-10">@Model.Party.Location</dd>
+    </dl>
+</div>
+
+<div class="row mb-3">
+    <div class="col">
+        <a asp-action="Edit" asp-route-id="@Model.Party.Id" class="btn btn-warning">Edit Party</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h3>Invitation Stats</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card bg-light">
+                    <div class="card-body text-center">
+                        <h5>Total</h5>
+                        <h2>@Model.TotalInvites</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body text-center">
+                        <h5>Attending</h5>
+                        <h2>@Model.TotalRespondedYes</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body text-center">
+                        <h5>Not Attending</h5>
+                        <h2>@Model.TotalRespondedNo</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning">
+                    <div class="card-body text-center">
+                        <h5>Pending</h5>
+                        <h2>@(Model.TotalInvites - Model.TotalRespondedYes - Model.TotalRespondedNo)</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3>Invitations</h3>
+        <a asp-controller="Invitation" asp-action="Create" asp-route-partyId="@Model.Party.Id" class="btn btn-primary">Add New Invitation</a>
+    </div>
+    <div class="card-body">
+        @if (Model.Invitations.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Guest Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var invitation in Model.Invitations)
+                    {
+                        <tr>
+                            <td>@invitation.GuestName</td>
+                            <td>@invitation.GuestEmail</td>
+                            <td>
+                                @switch (invitation.Status)
+                                {
+                                    case InvitationStatus.InviteNotSent:
+                                        <span class="badge bg-secondary">Not Sent</span>
+                                        break;
+                                    case InvitationStatus.InviteSent:
+                                        <span class="badge bg-primary">Sent</span>
+                                        break;
+                                    case InvitationStatus.RespondedYes:
+                                        <span class="badge bg-success">Attending</span>
+                                        break;
+                                    case InvitationStatus.RespondedNo:
+                                        <span class="badge bg-danger">Not Attending</span>
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @if (invitation.Status == InvitationStatus.InviteNotSent)
+                                {
+                                    <form asp-controller="Invitation" asp-action="SendInvite" asp-route-id="@invitation.Id" method="post" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">Send Invite</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No invitations yet. Add some invitations to get started.</p>
+        }
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Party Planner</h1>
+    <p>An easy way to organize your parties and keep track of who's coming.</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3>Planning a Party?</h3>
+                <p>Create a new party and invite your friends!</p>
+                <a asp-controller="Party" asp-action="Create" class="btn btn-primary mt-2">Plan a Party</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3>Manage Your Parties</h3>
+                <p>View and manage your existing parties.</p>
+                <a asp-controller="Party" asp-action="Index" class="btn btn-info mt-2">View Your Parties</a>
+            </div>
+        </div>
+    </div>
+</div>

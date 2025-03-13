@@ -1,0 +1,40 @@
+﻿@model PartyInvitationManager.Models.ViewModels.InvitationCreateViewModel
+
+@{
+    ViewData["Title"] = "Add Invitation";
+}
+
+<h1>Add Invitation for "@ViewBag.PartyDescription"</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PartyId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="GuestName" class="control-label"></label>
+                <input asp-for="GuestName" class="form-control" />
+                <span asp-validation-for="GuestName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="GuestEmail" class="control-label"></label>
+                <input asp-for="GuestEmail" class="form-control" type="email" />
+                <span asp-validation-for="GuestEmail" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-controller="Party" asp-action="Details" asp-route-id="@Model.PartyId" class="btn btn-secondary">Back to Party</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

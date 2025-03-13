@@ -1,0 +1,33 @@
+﻿@model InvitationResponseViewModel
+
+@{
+    ViewData["Title"] = "Thank You";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center">Thank You @Model.GuestName!</h1>
+            </div>
+            <div class="card-body text-center">
+                <h3 class="mb-4">Your response has been recorded</h3>
+
+                @if (Model.WillAttend)
+                {
+                    <div class="alert alert-success">
+                        <h4>We're looking forward to seeing you!</h4>
+                        <p>Don't forget to mark your calendar for @Model.PartyDate.ToShortDateString() at @Model.PartyLocation</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-secondary">
+                        <h4>We're sorry you can't make it</h4>
+                        <p>Thanks for letting us know. Maybe next time!</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
